@@ -1,0 +1,115 @@
+﻿@model ENAPEK.Models.GetENAREKModel
+@{
+    ViewBag.Title = "GetENAREK";
+    
+}
+
+
+
+<h2>GetENAPEK</h2>
+
+<div class="jumbotron">
+    <h1>Ερώτηση ΕΝΑΡΕΚ</h1>
+    <h2> @ViewBag.Message</h2>
+    <h2> --   </h2>
+    <p class="lead">Σε αυτή!! την σελίδα μπορείτε να βρείτε το ΕΝΑΡΕΚ σας, αναζητώντας το βάσει ΑΜΚΑ</p>
+    Προχωρήστε
+
+</div>
+
+<style>
+.Minedu-margin-bottom {
+margin-bottom:15px;}
+    </style>
+
+
+<div class="container">
+    @using (Html.BeginForm("GetENAREKFull", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="alert alert-danger">
+            sdhfyiusdhsd
+            @Html.DisplayFor(model => model.Error)
+
+            <br />
+        </div>
+
+        <h4>Add a phone number2</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.AMKA, new { @class = " control-label" })
+            </div>
+            <div class="col-md-11">
+                @Html.TextBoxFor(model => model.AMKA, new { @class = "form-control Minedu-margin-bottom" })
+            </div>
+            
+        <!--    <div class="col-md-1" >.</div><div class="col-md-5">.</div> --> 
+            <div class="col-md-1"> 
+
+                @Html.LabelFor(model => model.SurName, new { @class = "col-md-1 control-label" })
+            </div>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.SurName, new { @class = "form-control Minedu-margin-bottom" })
+            </div> 
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.FirstName, new { @class = "col-md-1 control-label" })
+            </div>
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control Minedu-margin-bottom" })
+                </div>
+
+
+            <div class="col-md-1">
+
+                @Html.LabelFor(model => model.FatherName, new { @class = "col-md-1 control-label" })
+            </div>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.FatherName, new { @class = "form-control Minedu-margin-bottom" })
+            </div>
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.MotherName, new { @class = "col-md-1 control-label" })
+            </div>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.MotherName, new { @class = "form-control Minedu-margin-bottom" })
+            </div>
+
+
+                <div class="col-md-1">
+                    @Html.LabelFor(model => model.BirthDate, new { @class = "col-md-1 control-label" })
+                </div>
+                <div class="col-md-11">
+                    @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control datepicker", placeholder = "dd/mm/yyyy" })
+                </div>
+            
+            
+                  
+
+
+
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-danger Minedu-margin-bottom" value="Submit" />
+                </div>
+            <hr/> 
+            <div class="col-md-1">
+               O ENEREK EINAI  @Html.LabelFor(model => model.ENAREK, new { @class = "col-md-2 control-label" })
+            </div>
+            <div class="col-md-11">
+                @Html.DisplayFor(model => model.ENAREK, new { @class = "form-control" })
+            </div>
+
+
+
+            </div>
+
+    }
+
+    </div>
+
+
+
+
+
+
+

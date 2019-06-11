@@ -1,0 +1,72 @@
+﻿@model ENAPEK.Models.GetENAREKModel
+@{
+    ViewBag.Title = "GetENAREK";
+ 
+}
+
+
+
+<h2>GetENAPEK</h2>
+
+
+<div class="jumbotron">
+    <h1>Ερώτηση ΕΝΑΡΕΚ</h1>
+    <h2> @ViewBag.Message</h2>
+    <h2> --   </h2>
+    <p class="lead">Σε αυτή!! την σελίδα μπορείτε να βρείτε το ΕΝΑΡΕΚ σας, αναζητώντας το βάσει ΑΜΚΑ</p>
+    Προχωρήστε
+</div>
+
+
+inside before 
+<div class="container">
+@using (Html.BeginForm("GetENAREK", "Home", FormMethod.Post))
+{
+    
+    @Html.AntiForgeryToken()
+    <div class="alert alert-danger col-md-12">
+        The error Message 
+        @Html.DisplayFor(model => model.Error)
+
+        <br />
+    </div>
+
+        <h4>Add a phone number2</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.AMKA, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.AMKA, new { @class = "form-control" })
+                
+            </div>
+      
+        <div>
+            @Html.LabelFor(model => model.ENAREK, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ENAREK, new { @class = "form-control" })
+            </div>
+        </div>
+
+      
+      
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-danger" value="Submit" />
+            </div>
+        </div>
+      
+                }
+    </div>
+
+    <div class="alert alert-danger col-md-12">
+    The error Message
+    @Html.DisplayFor(model => model.Error)
+
+    <br />
+</div>
+
+
+
+            
+
+
