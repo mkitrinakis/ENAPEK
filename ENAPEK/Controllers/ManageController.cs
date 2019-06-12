@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using ENAPEK.Models;
+using ENAREK.Models;
 
-namespace ENAPEK.Controllers
+namespace ENAREK.Controllers
 {
     [Authorize]
     public class ManageController : Controller

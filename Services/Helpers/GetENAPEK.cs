@@ -5,16 +5,16 @@ using System.Web;
 using Newtonsoft.Json; 
 
 
-namespace ENAPEK.Helpers
+namespace ENAREK.Helpers
 {
 
-    struct StructENAPEK
+    struct StructENAREK
     {
         public string ENAREK; 
         public string IsNew ;  
     }
 
-    public class GetENAPEK
+    public class GetENAREK
     {
         public string byAMKAOnlyQuery(string AMKA)
         {
@@ -25,21 +25,21 @@ namespace ENAPEK.Helpers
 
         public string byAMKAQueryUpdate(string AMKA)
         {
-            StructENAPEK structENAPEK = new Helpers.StructENAPEK(); 
+            StructENAREK structENAREK = new Helpers.StructENAREK(); 
             
             string rs = getFromAMKATable(AMKA);
             if (!rs.Trim().Equals(""))
             {
-                structENAPEK.ENAREK = rs;
-                structENAPEK.IsNew = "0";
-                return JsonConvert.SerializeObject(structENAPEK);
+                structENAREK.ENAREK = rs;
+                structENAREK.IsNew = "0";
+                return JsonConvert.SerializeObject(structENAREK);
             }
             else
             {
                 rs = insertToAMKATable(AMKA);
-                structENAPEK.ENAREK = rs;
-                structENAPEK.IsNew = "1";
-                return JsonConvert.SerializeObject(structENAPEK);
+                structENAREK.ENAREK = rs;
+                structENAREK.IsNew = "1";
+                return JsonConvert.SerializeObject(structENAREK);
             }
 
         }

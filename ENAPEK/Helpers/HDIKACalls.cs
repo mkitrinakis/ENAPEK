@@ -9,11 +9,11 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Text;
 using System.Text.RegularExpressions;
-using ENAPEK.Helpers; 
+using ENAREK.Helpers; 
 
 
 
-namespace ENAPEK.Helpers
+namespace ENAREK.Helpers
 {
     public static class HDIKACalls
     {
@@ -328,7 +328,7 @@ namespace ENAPEK.Helpers
                         if (!myMatchDate(birthdate, amkaDetailsResponse.Result.birth_date) ) { correctMetadata = false; correctMetadataError.Add("birthdate"); }
                     
                     Helpers.GetENAREK getENAREK = new GetENAREK();
-                    Helpers.StructENAPEK structEnarek = getENAREK.byAMKAQueryUpdate(amka);
+                    Helpers.StructENAREK structEnarek = getENAREK.byAMKAQueryUpdate(amka);
                     if (!structEnarek.success || structEnarek.ENAREK.Trim().Equals(""))
                     
                     {
@@ -636,7 +636,7 @@ namespace ENAPEK.Helpers
         //WebResponse resp = req.GetResponse();
         //    Stream respStream = resp.GetResponseStream();
         //    return respStream.ToString(); 
-        //     return JsonConvert.SerializeObject(structENAPEK);
+        //     return JsonConvert.SerializeObject(structENAREK);
     }
 
 

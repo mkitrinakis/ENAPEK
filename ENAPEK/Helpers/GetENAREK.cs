@@ -7,10 +7,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.Sql; 
 
-namespace ENAPEK.Helpers
+namespace ENAREK.Helpers
 {
 
-   public struct StructENAPEK
+   public struct StructENAREK
     {
        
         public void IsENAREKError(string msg)
@@ -33,9 +33,9 @@ namespace ENAPEK.Helpers
         private string errorMessage = ""; 
 
         // SQL  
-        public StructENAPEK byAMKAOnlyQuery(string AMKA)
+        public StructENAREK byAMKAOnlyQuery(string AMKA)
         {
-            StructENAPEK response = new StructENAPEK(); 
+            StructENAREK response = new StructENAREK(); 
             string rs = getFromAMKATable(AMKA);
             Log.write("rs = " + rs);
             if (!errorMessage.Equals("")) { response.IsENAREKError(errorMessage); return response; }
@@ -46,9 +46,9 @@ namespace ENAPEK.Helpers
             return response; 
         }
 
-        public StructENAPEK byAMKAQueryUpdate(string AMKA)
+        public StructENAREK byAMKAQueryUpdate(string AMKA)
         {
-            StructENAPEK response = new StructENAPEK();
+            StructENAREK response = new StructENAREK();
             string rs = getFromAMKATable(AMKA);
             if (!errorMessage.Equals("")) { response.IsENAREKError(errorMessage); return response; }
             if (!rs.Trim().Equals(""))

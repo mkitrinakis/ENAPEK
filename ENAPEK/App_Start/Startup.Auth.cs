@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using ENAPEK.Models;
+using ENAREK.Models;
 
-namespace ENAPEK
+namespace ENAREK
 {
     public partial class Startup
     {

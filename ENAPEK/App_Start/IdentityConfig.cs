@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using ENAPEK.Models;
+using ENAREK.Models;
 
-namespace ENAPEK
+namespace ENAREK
 {
     public class EmailService : IIdentityMessageService
     {

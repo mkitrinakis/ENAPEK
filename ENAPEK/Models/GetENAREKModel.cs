@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ENAPEK.Models
+namespace ENAREK.Models
 {
     public class GetENAREKModel
     {

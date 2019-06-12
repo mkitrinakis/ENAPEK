@@ -56,9 +56,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ENAPEK\ENAPEK.csproj">
+    <ProjectReference Include="..\ENAPEK\ENAREK.csproj">
       <Project>{54374b8b-495d-4176-b075-250cf893271a}</Project>
-      <Name>ENAPEK</Name>
+      <Name>ENAREK</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

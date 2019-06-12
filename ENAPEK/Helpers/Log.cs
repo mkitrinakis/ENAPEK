@@ -5,7 +5,7 @@ using System.Web;
 using System.IO;  
 
 
-namespace ENAPEK.Helpers
+namespace ENAREK.Helpers
 {
     public static class Log
     {

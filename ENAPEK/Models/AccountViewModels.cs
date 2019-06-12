@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ENAPEK.Models
+namespace ENAREK.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

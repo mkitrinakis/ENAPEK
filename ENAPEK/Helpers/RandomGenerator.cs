@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ENAPEK.Helpers
+namespace ENAREK.Helpers
 {
     public static class RandomGenerator
     {

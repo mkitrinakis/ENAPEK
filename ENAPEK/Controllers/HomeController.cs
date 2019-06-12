@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ENAPEK.Models;
+using ENAREK.Models;
 using Newtonsoft.Json;
 
-namespace ENAPEK.Controllers
+namespace ENAREK.Controllers
 {
     public class HomeController : Controller
     {
@@ -33,7 +33,7 @@ namespace ENAPEK.Controllers
 
         public ActionResult GetENAREK()
         {
-            ViewBag.Message = "GetENAPEK";
+            ViewBag.Message = "GetENAREK";
             return View();
         }
 
@@ -76,7 +76,7 @@ namespace ENAPEK.Controllers
 
         public ActionResult GetENAREKFull()
         {
-            ViewBag.Message = "GetENAPEKFull";
+            ViewBag.Message = "GetENAREKFull";
             return View();
         }
 
