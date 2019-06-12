@@ -79,7 +79,7 @@ namespace ENAPEK.Helpers
             {
                 return ServiceCallID.Substring(ServiceCallID.IndexOf('#') + 1); 
             }
-            public string ServiceCallID;xxxx
+            public string ServiceCallID;
             public int code;
             public bool success;
             public StructAMKADetails Result;
