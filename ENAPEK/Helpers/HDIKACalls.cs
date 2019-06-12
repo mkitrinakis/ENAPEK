@@ -79,7 +79,7 @@ namespace ENAPEK.Helpers
             {
                 return ServiceCallID.Substring(ServiceCallID.IndexOf('#') + 1); 
             }
-            public string ServiceCallID;
+            public string ServiceCallID;xxxx
             public int code;
             public bool success;
             public StructAMKADetails Result;
@@ -334,7 +334,7 @@ namespace ENAPEK.Helpers
                     {
                         response.flag = 0;
                         response.error = "ERROR ==> ENAREK.Helpers.GetEnarek returned error:" + structEnarek.error; 
-                        response.ENAREK = "";
+                        response.ENAREK = "";    
                         response.AMKADetails = new StructAMKADetails();
                         Log.write("** getENAREK:" + JsonConvert.SerializeObject(response));
                         return response; 
