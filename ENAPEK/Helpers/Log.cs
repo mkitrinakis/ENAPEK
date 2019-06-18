@@ -10,13 +10,15 @@ namespace ENAREK.Helpers
     public static class Log
     {
         static string path = "c:\\test\\log1.txt"; 
+        
      public   static void write(string msg)
         {
+            //  Console.WriteLine(msg); 
             Console.WriteLine(msg);
             using (StreamWriter w = File.AppendText(path))
             {
                 w.WriteLine(DateTime.Now.ToString() + "   " + msg);
-                w.Close(); 
+                w.Close();
             }
         }
     }

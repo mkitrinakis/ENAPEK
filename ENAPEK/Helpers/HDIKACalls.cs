@@ -212,10 +212,10 @@ namespace ENAREK.Helpers
                         err += "4";
                         
                         
-                        if (result.StatusCode.ToString().Equals("Unauthorized"))
+                        if (result.StatusCode.ToString().Equals("Unauthorized") || result.StatusCode.ToString().Equals("Forbidden"))
                         {
 
-                            Log.write("unauthorized");
+                            Log.write("unauthorized or forbidden:" + result.StatusCode.ToString());
                             if (firstTry)
                             {
                                 //   
@@ -225,7 +225,7 @@ namespace ENAREK.Helpers
                             else
                             {
                                 Log.write("Ooops! not authenticated");
-                                rs.IsENAREKError("ERROR ==> ENAREK.Helpsers.HDIKACalls: System Error: not authenticated");
+                                rs.IsENAREKError("ERROR ==> ENAREK.Helpers.HDIKACalls: System Error: not authenticated");
                                 return rs;
                             }
                         }
@@ -243,14 +243,15 @@ namespace ENAREK.Helpers
                             }
                             catch (Exception exc)
                             {
-                                rs.IsENAREKError("ERROR ==> ENAREK.Helpsers.HDIKACalls: Cannot deserialize response: " + responseString);
+                                rs.IsENAREKError("ERROR ==> ENAREK.Helpers.HDIKACalls: Cannot deserialize response: " + responseString);
                                 return rs; 
                             }
                             
                         }
                         else
                         {
-                            rs.IsENAREKError("ERROR ==> ENAREK.Helpsers.HDIKACalls: Call To HDIKA returned false with status code: " + result.StatusCode);
+                            Log.write("ooops"); 
+                            rs.IsENAREKError("!!ERROR ==> ENAREK.Helpers.HDIKACalls: Call To HDIKA returned false with status code: " + result.StatusCode);
                             return rs;
                         }
                         }
@@ -259,7 +260,7 @@ namespace ENAREK.Helpers
            
             catch (System.Exception exc)
             {
-                rs.IsENAREKError("ERROR ==> ENAREK.Helpsers.HDIKACalls: " + exc.Message);
+                rs.IsENAREKError("ERROR ==> ENAREK.Helpers.HDIKACalls: " + exc.Message);
                 
                 return rs;
             }

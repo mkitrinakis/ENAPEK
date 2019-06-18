@@ -19,6 +19,11 @@ namespace Services
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Routes.MapHttpRoute(
+              name: "DefaultApiP2",
+              routeTemplate: "api/{controller}/{id1}/{id2}",
+              defaults: new { id1 = RouteParameter.Optional, id2 = RouteParameter.Optional }
+          );
         }
     }
 }
