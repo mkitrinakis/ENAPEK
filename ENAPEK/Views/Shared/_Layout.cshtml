@@ -9,10 +9,8 @@
 
 </head>
 <body>
-    <a class="navbar-brand" href="#">
-        <img src="~/imgs/mainlogo.jpg" alt="Minedu logo" />
-    </a>
-    <div class="navbar navbar-inverse ">
+   
+    <div class="navbar-inverse">
         <a class="navbar-brand" href="#">
             <img src="~/imgs/mainlogo.jpg" alt="Minedu logo" />
         </a>
@@ -53,16 +51,18 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <hr />
-        <hr />
+
+        
+     
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap")    
+    @Scripts.Render("~/bundles/jqueryval") 
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

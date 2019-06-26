@@ -19,9 +19,12 @@
 
 <style>
 .Minedu-margin-bottom {
+    display: inline-block;
 margin-bottom:15px;}
-    </style>
+    
 
+.Minedu-date-IE  { width:70%}
+    </style>
 
 <div class="container">
     @using (Html.BeginForm("GetENAREKFull", "Home", FormMethod.Post))
@@ -40,8 +43,8 @@ margin-bottom:15px;}
                 @Html.LabelFor(model => model.AMKA, new { @class = " control-label" })
             </div>
             <div class="col-md-11">
-                @Html.TextBoxFor(model => model.AMKA, new { @class = "form-control Minedu-margin-bottom" })
-                @Html.ValidationMessageFor(model => model.AMKA, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.AMKA, new { @class = "form-control " })
+                @Html.ValidationMessageFor(model => model.AMKA, "", new { @class = "text-danger Minedu-margin-bottom" })
             </div>
             
         <!--    <div class="col-md-1" >.</div><div class="col-md-5">.</div> --> 
@@ -50,39 +53,49 @@ margin-bottom:15px;}
                 @Html.LabelFor(model => model.SurName, new { @class = " control-label" })
             </div>
             <div class="col-md-5">
-                @Html.TextBoxFor(model => model.SurName, new { @class = "form-control Minedu-margin-bottom" })
+                @Html.TextBoxFor(model => model.SurName, new { @class = "form-control " })
+                @Html.ValidationMessageFor(model => model.SurName, "", new { @class = "text-danger Minedu-margin-bottom" })
             </div> 
             <div class="col-md-1">
                 @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
             </div>
                 <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control Minedu-margin-bottom" })
+                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control " })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger Minedu-margin-bottom" })
                 </div>
 
 
             <div class="col-md-1">
 
                 @Html.LabelFor(model => model.FatherName, new { @class = "control-label" })
+            
             </div>
             <div class="col-md-5">
-                @Html.TextBoxFor(model => model.FatherName, new { @class = "form-control Minedu-margin-bottom" })
+                @Html.TextBoxFor(model => model.FatherName, new { @class = "form-control " })
+                @Html.ValidationMessageFor(model => model.FatherName, "", new { @class = "text-danger Minedu-margin-bottom" })
             </div>
             <div class="col-md-1">
                 @Html.LabelFor(model => model.MotherName, new { @class = "control-label" })
             </div>
             <div class="col-md-5">
-                @Html.TextBoxFor(model => model.MotherName, new { @class = "form-control Minedu-margin-bottom" })
+                
+                @Html.TextBoxFor(model => model.MotherName, new { @class = "form-control " })
+                @Html.ValidationMessageFor(model => model.MotherName, "", new { @class = "text-danger Minedu-margin-bottom" })
+                
             </div>
     <div class="col-md-1">, 
                     @Html.LabelFor(model => model.BirthDate, new { @class = "control-label" })
                 </div>
                 <div class="col-md-11">
-                    @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control datepicker", placeholder = "Date",  type = "date" })
+                    @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control Minedu-date-IE  ", placeholder = "Date",  type = "date" })
+                    @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
                 </div>
              
                 <hr />
-                <div class="col-md-2" contol-label>
-                    <b> Το ΕΝΑΡΕΚ σας είναι: </b>
+                <div class="col-md-2">
+                    <div class="contol-label">
+                        <b> Το ΕΝΑΡΕΚ σας είναι: </b>
+                    </div>
                 </div>
                 <div class="col-md-10">
                     @Html.DisplayFor(model => model.ENAREK, new { @class = "form-control" })

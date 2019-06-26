@@ -91,13 +91,16 @@ namespace ENAREK.Controllers
             DateTime BirthDate = m.BirthDate; 
              Helpers.GetENAREK getENAREK = new Helpers.GetENAREK();
             string myResponse = "";
-            myResponse = BirthDate.Year + "." + BirthDate.Month + "." + BirthDate.Day; 
-            ViewBag.Message = myResponse;
+            HtmlHelper.ClientValidationEnabled = true; 
+            if (ModelState.IsValid)
+            {
+            
+                myResponse = BirthDate.Year + "." + BirthDate.Month + "." + BirthDate.Day;
+                ViewBag.Message = myResponse;
 
-            Helpers.Log.write("the AKA is" + AMKA);
-
-
-            return View(m);
+                Helpers.Log.write("the AKA is" + AMKA);
+                return View(m);
+            }
 
             Helpers.HDIKACalls.StructAMKADetailsResponse response1 = Helpers.HDIKACalls.getAMKADetails(true, AMKA, SurName);
        
