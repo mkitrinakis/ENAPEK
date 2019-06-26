@@ -19,10 +19,11 @@ namespace Tasks
     class TESTHDIKACalls
     {
         public void run()
+
         {
             Log.write("TESTHDIKACalls - starts");
             List<int> loops = new List<int>();
-            for (int i = 0; i <= 100; i++) loops.Add(i);
+            // for (int i = 10000; i <= 20000; i++) loops.Add(i);
 
             //Parallel.ForEach(loops, (loop) =>
             //{
@@ -31,10 +32,11 @@ namespace Tasks
             //});
 
 
-            for (int i=0; i<=100; i++)
+            for (int i=22000; i<=30000; i++)
             {
                 testLog("starting:" + i.ToString());
-                pump(i);
+                // pump(i);
+                testPump(i); 
             }
 
         }
@@ -64,6 +66,60 @@ namespace Tasks
 
         }
 
+
+        public struct TestRequest
+        {
+            public string amka; 
+        }
+
+        public void testPump(int id)
+        {
+            // string encoded = HelpUtils.return___PRODUCTION___Authorization();
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            string q = "http://localhost:21801/api/TESTENAREK/";
+            
+            var request = WebRequest.Create(q);
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            // HDIKACalls.getENAREK(true, request.amka, request.surname, request.firstname, request.fathername, request.mothername, request.birthdate);
+            TestRequest testRequest = new Tasks.TESTHDIKACalls.TestRequest() { amka = id.ToString() }; 
+            
+            string postData = JsonConvert.SerializeObject(testRequest);
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+            request.ContentLength = byteArray.Length;
+            // Write the data to the request stream.  
+            Stream dataStream = request.GetRequestStream();
+            dataStream.Write(byteArray, 0, byteArray.Length);
+            // Close the Stream object.  
+            dataStream.Close();
+            //  request.Headers.Add("Authorization", "Basic " + encoded);
+
+            try
+            {
+                using (var response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (var stream = response.GetResponseStream())
+                    {
+                        using (var sr = new StreamReader(stream))
+                        {
+                            try
+                            {
+                                string content = sr.ReadToEnd();
+                                HDIKACalls.StructENAREKResponse json = JsonConvert.DeserializeObject<HDIKACalls.StructENAREKResponse>(content);
+                                testLog("id:" + id + "!!-->Status:" + "-" + response.StatusCode + "-" + response.StatusDescription + "--flag--Error-ENAREK--?" + json.flag + "-" + (json.error ?? "-") + json.ENAREK);
+                                //testLog("id:" + id + "-->flag:" + json.flag);
+                                //testLog("id:" + id + "-->error:" + (json.error ?? "-"));
+                                //testLog("id:" + id + "-->ENAREK:" + json.ENAREK);
+                            }
+                            catch (Exception e) { testLog("id:" + id + "-->INNER SYSTEM ERROR :" + e.Message); }
+                        }
+                    }
+                }
+            }
+            catch (Exception e) { testLog("id:" + id + "-->OUTER SYSTEM ERROR :" + e.Message); }
+        }
+    
+
         public void pump(int id)
         {
             
@@ -79,8 +135,8 @@ namespace Tasks
             string postData = JsonConvert.SerializeObject(rs); 
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
             request.ContentLength = byteArray.Length;
-            Stream dataStream = request.GetRequestStream();
             // Write the data to the request stream.  
+            Stream dataStream = request.GetRequestStream();
             dataStream.Write(byteArray, 0, byteArray.Length);
             // Close the Stream object.  
             dataStream.Close();

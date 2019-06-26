@@ -11,6 +11,9 @@ namespace Tasks
     {
         static void Main(string[] args)
         { // 1st char is latin, second char is greek 
+            //TestRandomGenerator rg = new TestRandomGenerator();
+            //rg.run();
+            //return; 
             TESTHDIKACalls testHDIKA = new TESTHDIKACalls();
             testHDIKA.run();
             return; 
