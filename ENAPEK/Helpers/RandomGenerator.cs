@@ -15,12 +15,12 @@ namespace ENAREK.Helpers
         {
             int num = random.Next(100000000);
            
-            string sNum = num.ToString().PadLeft(8);
+            string sNum = num.ToString().PadLeft(8,'0');
 
             int checksum = getChecksum(sNum);
             if (checksum != -1)
             {
-                return num.ToString() + checksum.ToString();
+                return sNum.ToString() + checksum.ToString();
             }
             else
             {
@@ -38,12 +38,13 @@ namespace ENAREK.Helpers
             {
                 multFactor *= 2;
                 char c = sNum[i];
-                int cInt = Convert.ToInt32(c);
+                int cInt = Convert.ToInt32( Char.GetNumericValue(c)); 
                 int cMult = cInt * multFactor;
                 sum += cMult;
 
             }
-            int checksum = (int)((sum / 11) % 1 * 10); // divide by 11, and get the first digit of the decimal part. 
+            // int checksum = (int)((sum / 11) % 1 * 10); // divide by 11, and get the first digit of the decimal part. 
+            int checksum = (int)((sum % 11) % 10);
             return checksum; 
         }
 

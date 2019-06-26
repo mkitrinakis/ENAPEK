@@ -184,15 +184,16 @@ namespace ENAREK.Helpers
             StructAMKADetailsResponse rs = new StructAMKADetailsResponse(); 
             string urlAMKA = "https://gateway.interoperability.gr/amkacheck/1.0.1/";
             Log.write("starting getAMKA");
-         
+
             if (token.Equals("") || token.StartsWith("ERROR")) token = getAuthToken();
+
             if (token.Equals("") || token.StartsWith("ERROR"))
             {
                 rs.IsENAREKError("ERROR ==> ENAREK.Helpers.HDIKACalls: Error on Authentication token: " + token);
-               
-                return rs; 
+
+                return rs;
             }
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             Log.write("token:" + token);
             urlAMKA += valuesAMKA["amka"] + "/";
             urlAMKA += HttpUtility.UrlEncode(valuesAMKA["surname"]) + "/";
@@ -210,9 +211,9 @@ namespace ENAREK.Helpers
                     using (HttpResponseMessage result = client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).Result)
                     {
                         err += "4";
-                        
-                        
-                        if (result.StatusCode.ToString().Equals("Unauthorized") || result.StatusCode.ToString().Equals("Forbidden"))
+
+
+                        if (result.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
                         {
 
                             Log.write("unauthorized or forbidden:" + result.StatusCode.ToString());
@@ -220,12 +221,12 @@ namespace ENAREK.Helpers
                             {
                                 //   
                                 token = getAuthToken();
-               
+
                             }
                             else
                             {
-                                Log.write("Ooops! not authenticated");
-                                rs.IsENAREKError("ERROR ==> ENAREK.Helpers.HDIKACalls: System Error: not authenticated");
+                             
+                                rs.IsENAREKError("@@ERROR ==> ENAREK.Helpers.HDIKACalls: System Error: not authenticated");
                                 return rs;
                             }
                         }
@@ -250,8 +251,15 @@ namespace ENAREK.Helpers
                         }
                         else
                         {
-                            Log.write("ooops"); 
-                            rs.IsENAREKError("!!ERROR ==> ENAREK.Helpers.HDIKACalls: Call To HDIKA returned false with status code: " + result.StatusCode);
+                            string responseString = "";
+                            try
+                            {
+                                var resultContent = result.Content;
+                                responseString = resultContent.ReadAsStringAsync().Result;
+                            }
+                            catch { }; 
+                            
+                            rs.IsENAREKError("@@ERROR ==> ENAREK.Helpers.HDIKACalls: Call To HDIKA returned false with status code: " + result.StatusCode + "--"  + responseString);
                             return rs;
                         }
                         }
@@ -378,63 +386,34 @@ namespace ENAREK.Helpers
                 return response; 
             }
           
-            /*
-            {
-                "code": 400,
-  "success": false,
-  "message": "Service Call Parameters Error, amka id must be a 11 digit number",
-  "timestamp": "2019-05-30T15:14:00+03:00"
-}
-            {
-                "ServiceCallID": "384623bd-38f0-4faf-866c-4b4bfa8b8040",
-  "code": 200,
-  "success": true,
-  "Result": {
-                    "match": "false",
-    "ssn": "14087200714"
-  },
-  "timestamp": "2019-05-30T15:14:00+03:00"
-       }
-            {
-                "ServiceCallID": "30a9f279-c7d6-425d-acce-c2ee88de569c",
-  "code": 200,
-  "success": true,
-  "Result": {
-                    "birth_municipality_greek_code": "ΑΤΤΙ",
-    "birth_date": "14/08/1972",
-    "father_en": "ANGELIS",
-    "father_gr": "ΑΓΓΕΛΗΣ",
-    "tid": "00073811366",
-    "birth_country": "ΕΛΛΑΔΑ",
-    "ssn": "14087200714",
-    "birth_country_code": "GR",
-    "last_mod_date": "05/11/2015",
-    "surname_cur_gr": "ΚΙΤΡΙΝΑΚΗΣ",
-    "id_type": "Τ",
-    "surname_cur_en": "KITRINAKIS",
-    "surname_birth_gr": "ΚΙΤΡΙΝΑΚΗΣ",
-    "death_note": "",
-    "citizenship": "ΕΛΛΑΔΑ",
-    "sex": "ΑΡΡΕΝ",
-    "surname_birth_en": "KITRINAKIS",
-    "match": "true",
-    "citizenship_code": "GR",
-    "bdate_istrue": "",
-    "birth_municipality": "ΑΘΗΝΑ",
-    "death_date": "",
-    "amka_cur": "14087200714",
-    "mother_en": "EFTHALIA",
-    "mother_gr": "ΕΥΘΑΛΙΑ",
-    "id_num": "ΑΚ548769",
-    "name_gr": "ΜΑΡΚΟΣ",
-    "id_in": "",
-    "id_creation_year": "2012",
-    "name_en": "MARKOS"
-  },
-  "timestamp": "2019-05-30T15:12:00+03:00"
-          }
+          
+        }
 
-    */
+
+        public static StructENAREKResponse test_getENAREK(string amka)
+        {
+            StructENAREKResponse response = new Helpers.HDIKACalls.StructENAREKResponse(); 
+            Helpers.GetENAREK getENAREK = new GetENAREK();
+            
+            
+            Helpers.StructENAREK structEnarek = getENAREK.byAMKAQueryUpdate(amka);
+            if (!structEnarek.success || structEnarek.ENAREK.Trim().Equals(""))
+
+            {
+                response.flag = 0;
+                response.error = "ERROR ==> test_getENAREK.Helpers.GetEnarek returned error:" + structEnarek.error;
+                response.ENAREK = "";
+                response.AMKADetails = new StructAMKADetails();
+                Log.write("** getENAREK:" + JsonConvert.SerializeObject(response));
+                return response;
+            }
+            response.flag = 1; 
+            response.ENAREK = structEnarek.ENAREK;
+            StructAMKADetails amkaDetails = new StructAMKADetails();
+            
+            
+            Log.write("** getENAREK:" + JsonConvert.SerializeObject(response));
+            return response;
         }
 
 

@@ -33,42 +33,57 @@ namespace ENAREK.Helpers
         private string errorMessage = ""; 
 
         // SQL  
-        public StructENAREK byAMKAOnlyQuery(string AMKA)
-        {
-            StructENAREK response = new StructENAREK(); 
-            string rs = getFromAMKATable(AMKA);
-            Log.write("rs = " + rs);
-            if (!errorMessage.Equals("")) { response.IsENAREKError(errorMessage); return response; }
-            response.ENAREK = rs;
-            response.error = "";
-            response.IsNew = true;
-            response.success = true;
-            return response; 
-        }
+        //public StructENAREK byAMKAOnlyQuery(string AMKA)
+        //{
+        //    StructENAREK response = new StructENAREK(); 
+        //    string rs = getFromAMKATable(AMKA);
+        //    Log.write("rs = " + rs);
+        //    if (!errorMessage.Equals("")) { response.IsENAREKError(errorMessage); return response; }
+        //    response.ENAREK = rs;
+        //    response.error = "";
+        //    response.IsNew = true;
+        //    response.success = true;
+        //    return response; 
+        //}
 
         public StructENAREK byAMKAQueryUpdate(string AMKA)
         {
             StructENAREK response = new StructENAREK();
-            string rs = getFromAMKATable(AMKA);
-            if (!errorMessage.Equals("")) { response.IsENAREKError(errorMessage); return response; }
-            if (!rs.Trim().Equals(""))
+            SqlConnection con = null;  
+            try
             {
-                response.success = true;
-                response.error = ""; 
-                response.ENAREK = rs;
-                response.IsNew = true;
-                return response; 
-            }
-            else
-            {
-                rs = insertToAMKATable(AMKA);
+                
+                 con = getConnection();
+                string rs = getFromAMKATable(AMKA, con);
                 if (!errorMessage.Equals("")) { response.IsENAREKError(errorMessage); return response; }
-                response.success = true;
-                response.error = "";
-                response.ENAREK = rs;
-                response.IsNew = false;
-                return response;
+                if (!rs.Trim().Equals(""))
+                {
+                    response.success = true;
+                    response.error = "";
+                    response.ENAREK = rs;
+                    response.IsNew = true;
+                    return response;
+                }
+                else
+                {
+                    rs = insertToAMKATable(AMKA, con);
+                    if (!errorMessage.Equals("")) { response.IsENAREKError(errorMessage); return response; }
+                    response.success = true;
+                    response.error = "";
+                    response.ENAREK = rs;
+                    response.IsNew = false;
+                    return response;
+                }
             }
+            catch (Exception e) { 
+                response.success = false; 
+                response.error = "ERROR: " + e.Message;
+                response.ENAREK = "";
+                response.IsNew = false;
+                return response; 
+                
+            }
+            finally { try { con.Close(); } catch { }  }
         }
         
 
@@ -101,23 +116,22 @@ namespace ENAREK.Helpers
         //    }
         //}
 
-        private string testAMKA(string AMKA, string Surname, string FirstName, string FatherName, string MotherName, DateTime BirthDate)
-        {
-            return "ERROR : system error Bullshit"; 
-        }
+        //private string testAMKA(string AMKA, string Surname, string FirstName, string FatherName, string MotherName, DateTime BirthDate)
+        //{
+        //    return "ERROR : system error Bullshit"; 
+        //}
 
 
 
-        private int checkENAREKExistsAMKATable(string ENAREK)
+        private int checkENAREKExistsAMKATable(string ENAREK, SqlConnection con)
         {
             // 1 exists
             // 0 does not exist
             // -1 error (check global var ErrorMessage 
+            SqlDataReader rdr = null;
             try
             {
-              
-                SqlConnection con = getConnection();
-                SqlDataReader rdr = null;
+                Log.write("checkENAREKExistsAMKATableStarts"); 
                 string rs = "";
                 SqlCommand cmd = new SqlCommand("dbo.CheckByENAREK");
                 cmd.Connection = con;
@@ -129,21 +143,23 @@ namespace ENAREK.Helpers
                 if (!rdr.HasRows) { errorMessage = "ERROR: NO RESULTS"; return -1; }
                 rdr.Read();
 
-                if (((int)rdr[0]).Equals(1))
-                { return 1; }
+                if (((int)rdr[0]) > 0)
+                { Log.write("checkENAREKExistsAMKATableERROR double found");  return 1; }
                 else { return 0; }
             }
-            catch (Exception e) { errorMessage = "ERROR: " + e.Message; return -1; }
+            catch (Exception e) { errorMessage = "checkENAREKExistsAMKATableERROR: " + e.Message; Log.write(errorMessage);  return -1; }
+            finally { rdr.Close(); }
         }
             
 
-        private string getFromAMKATable(string AMKA)
+        private string getFromAMKATable(string AMKA, SqlConnection con)
         {
+            SqlDataReader rdr = null;
             try
             {
                 errorMessage = ""; 
-                SqlConnection con = getConnection();
-                SqlDataReader rdr = null;
+                
+               
                 string rs = "";
                 SqlCommand cmd = new SqlCommand("dbo.getByAMKA");
                 cmd.Connection = con; 
@@ -172,21 +188,29 @@ namespace ENAREK.Helpers
             {
                 errorMessage = "ERROR: Δεν μπόρεσε να αναζητηθεί ο ΕΝΑΡΕΚ στην βάση, συστημικό error -->" + e.Message + "--> " + e.StackTrace ; return "" ;
             }
+            finally { rdr.Close();  }
         }
 
-        private string insertToAMKATable(string AMKA)
+        private string insertToAMKATable(string AMKA, SqlConnection con)
         {
+
             try
             {
                 errorMessage = "";
-                SqlConnection con = getConnection();
                 
                 string rs = "";
                 SqlCommand cmd = new SqlCommand("dbo.SetbyAMKA");
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
-                string ENAREK = RandomGenerator.getID(); 
-                
+                bool isUnique;
+                string ENAREK = ""; 
+                do
+                {
+                    ENAREK = RandomGenerator.getID();
+                    isUnique = checkENAREKExistsAMKATable(ENAREK, con).Equals(0);
+                } while (!isUnique); 
+
+
                 SqlParameter paramAMKA = new SqlParameter("@AMKA", SqlDbType.NVarChar);
                 SqlParameter paramENAREK = new SqlParameter("@ENAREK", SqlDbType.NVarChar);
                 SqlParameter paramCreationDate = new SqlParameter("@CreationDate", SqlDbType.DateTime);
@@ -204,7 +228,7 @@ namespace ENAREK.Helpers
                 
                 
                 
-                if (!ENAREK.Equals(getFromAMKATable(AMKA))) { errorMessage = "ERROR3: Κάποιο παραμετρικό πρόβλημα κατά την ενημέρωση του ΕΝΑΡΕΚ, Παρακαλώ Επικοινωνήστε με την Διαχείριση να αναφέρετε το Πρόβλημα"; return ""; }
+                if (!ENAREK.Equals(getFromAMKATable(AMKA, con))) { errorMessage = "ERROR3: Κάποιο παραμετρικό πρόβλημα κατά την ενημέρωση του ΕΝΑΡΕΚ, Παρακαλώ Επικοινωνήστε με την Διαχείριση να αναφέρετε το Πρόβλημα"; return ""; }
                 else {
                     return ENAREK;
                 }

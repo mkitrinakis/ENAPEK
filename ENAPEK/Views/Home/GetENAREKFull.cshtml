@@ -28,33 +28,32 @@ margin-bottom:15px;}
     {
         @Html.AntiForgeryToken()
         <div class="alert alert-danger">
-            sdhfyiusdhsd
             @Html.DisplayFor(model => model.Error)
-
             <br />
         </div>
 
-        <h4>Add a phone number2</h4>
+        <h4>Add a phone number3</h4>
         <hr />
         @Html.ValidationSummary("", new { @class = "text-danger" })
         <div class="form-group">
-            <div class="col-md-1">
+            <div class="col-md-1" >
                 @Html.LabelFor(model => model.AMKA, new { @class = " control-label" })
             </div>
             <div class="col-md-11">
                 @Html.TextBoxFor(model => model.AMKA, new { @class = "form-control Minedu-margin-bottom" })
+                @Html.ValidationMessageFor(model => model.AMKA, "", new { @class = "text-danger" })
             </div>
             
         <!--    <div class="col-md-1" >.</div><div class="col-md-5">.</div> --> 
             <div class="col-md-1"> 
 
-                @Html.LabelFor(model => model.SurName, new { @class = "col-md-1 control-label" })
+                @Html.LabelFor(model => model.SurName, new { @class = " control-label" })
             </div>
             <div class="col-md-5">
                 @Html.TextBoxFor(model => model.SurName, new { @class = "form-control Minedu-margin-bottom" })
             </div> 
             <div class="col-md-1">
-                @Html.LabelFor(model => model.FirstName, new { @class = "col-md-1 control-label" })
+                @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
             </div>
                 <div class="col-md-5">
                     @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control Minedu-margin-bottom" })
@@ -63,47 +62,48 @@ margin-bottom:15px;}
 
             <div class="col-md-1">
 
-                @Html.LabelFor(model => model.FatherName, new { @class = "col-md-1 control-label" })
+                @Html.LabelFor(model => model.FatherName, new { @class = "control-label" })
             </div>
             <div class="col-md-5">
                 @Html.TextBoxFor(model => model.FatherName, new { @class = "form-control Minedu-margin-bottom" })
             </div>
             <div class="col-md-1">
-                @Html.LabelFor(model => model.MotherName, new { @class = "col-md-1 control-label" })
+                @Html.LabelFor(model => model.MotherName, new { @class = "control-label" })
             </div>
             <div class="col-md-5">
                 @Html.TextBoxFor(model => model.MotherName, new { @class = "form-control Minedu-margin-bottom" })
             </div>
-
-
-                <div class="col-md-1">
-                    @Html.LabelFor(model => model.BirthDate, new { @class = "col-md-1 control-label" })
+    <div class="col-md-1">, 
+                    @Html.LabelFor(model => model.BirthDate, new { @class = "control-label" })
                 </div>
                 <div class="col-md-11">
-                    @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control datepicker", placeholder = "dd/mm/yyyy" })
+                    @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control datepicker", placeholder = "Date",  type = "date" })
                 </div>
-            
-            
-                  
-
-
-
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-danger Minedu-margin-bottom" value="Submit" />
+             
+                <hr />
+                <div class="col-md-2" contol-label>
+                    <b> Το ΕΝΑΡΕΚ σας είναι: </b>
                 </div>
-            <hr/> 
-            <div class="col-md-1">
-               O ENEREK EINAI  @Html.LabelFor(model => model.ENAREK, new { @class = "col-md-2 control-label" })
-            </div>
-            <div class="col-md-11">
-                @Html.DisplayFor(model => model.ENAREK, new { @class = "form-control" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.ENAREK, new { @class = "form-control" })
+                </div>
+
             </div>
 
+            
 
-
+            <span> aaaa </span>
+            <div><hr /></div>
+            <div class="col-md-offset-1 col-md-11">
+                <input type="submit" class="btn btn-danger Minedu-margin-bottom" value="Submit" />
             </div>
 
     }
+
+    <script>
+        // placeholder for browsers that do not support Date field 
+        document.getElementById("BirthDate").setAttribute("placeholder", 'MM/dd/yyyy');
+    </script>
 
     </div>
 

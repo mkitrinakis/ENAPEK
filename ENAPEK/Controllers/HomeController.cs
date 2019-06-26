@@ -47,7 +47,7 @@ namespace ENAREK.Controllers
 
             ViewBag.Message = "GetENAREKFull Post"; 
             Helpers.Log.write("the AKA is" + AMKA); 
-            string rs = getEMAREK.byAMKAOnlyQuery(m.AMKA).ENAREK;
+            string rs = getEMAREK.byAMKAQueryUpdate(m.AMKA).ENAREK;
             Helpers.RandomGenerator.counter++;
             string ID = Helpers.RandomGenerator.getID(); 
             if (!rs.StartsWith("ERROR"))
@@ -90,9 +90,17 @@ namespace ENAREK.Controllers
             string MotherName = m.MotherName;
             DateTime BirthDate = m.BirthDate; 
              Helpers.GetENAREK getENAREK = new Helpers.GetENAREK();
-            
+            string myResponse = "";
+            myResponse = BirthDate.Year + "." + BirthDate.Month + "." + BirthDate.Day; 
+            ViewBag.Message = myResponse;
+
+            Helpers.Log.write("the AKA is" + AMKA);
+
+
+            return View(m);
+
             Helpers.HDIKACalls.StructAMKADetailsResponse response1 = Helpers.HDIKACalls.getAMKADetails(true, AMKA, SurName);
-            string myResponse = ""; 
+       
             if (!response1.success)
             {
                 myResponse = "Συστημικό Πρόβλημα καιά τον ελεγχο ΑΜΚΑ: " + response1.getError() + "(code:" + response1.code + ")"; 
