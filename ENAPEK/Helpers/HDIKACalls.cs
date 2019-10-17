@@ -324,22 +324,14 @@ namespace ENAREK.Helpers
                     bool correctMetadata = true;
                     List<string> correctMetadataError = new List<string>();
                     if (!myMatch(surname, amkaDetailsResponse.Result.surname_cur_gr) && !myMatch(surname, amkaDetailsResponse.Result.surname_cur_en)) { correctMetadata = false; correctMetadataError.Add("surname");  } 
-                   
-                        if (!myMatch(firstname, amkaDetailsResponse.Result.name_gr) && !myMatch(firstname, amkaDetailsResponse.Result.name_en)) { correctMetadata = false; correctMetadataError.Add("firstname"); }
-                   
-                   
-                        if (!myMatch(fathername, amkaDetailsResponse.Result.father_gr) && !myMatch(fathername, amkaDetailsResponse.Result.father_en)) { correctMetadata = false; correctMetadataError.Add("fathername"); }
-                   
-                        
-                            if (!myMatch(mothername, amkaDetailsResponse.Result.mother_gr) && !myMatch(mothername, amkaDetailsResponse.Result.mother_en)) { correctMetadata = false; correctMetadataError.Add("mothername"); }
-                        
-                    
-                        if (!myMatchDate(birthdate, amkaDetailsResponse.Result.birth_date) ) { correctMetadata = false; correctMetadataError.Add("birthdate"); }
+                    if (!myMatch(firstname, amkaDetailsResponse.Result.name_gr) && !myMatch(firstname, amkaDetailsResponse.Result.name_en)) { correctMetadata = false; correctMetadataError.Add("firstname"); }
+                   if (!myMatch(fathername, amkaDetailsResponse.Result.father_gr) && !myMatch(fathername, amkaDetailsResponse.Result.father_en)) { correctMetadata = false; correctMetadataError.Add("fathername"); }
+                   if (!myMatch(mothername, amkaDetailsResponse.Result.mother_gr) && !myMatch(mothername, amkaDetailsResponse.Result.mother_en)) { correctMetadata = false; correctMetadataError.Add("mothername"); }
+                   if (!myMatchDate(birthdate, amkaDetailsResponse.Result.birth_date) ) { correctMetadata = false; correctMetadataError.Add("birthdate"); }
                     
                     Helpers.GetENAREK getENAREK = new GetENAREK();
                     Helpers.StructENAREK structEnarek = getENAREK.byAMKAQueryUpdate(amka);
-                    if (!structEnarek.success || structEnarek.ENAREK.Trim().Equals(""))
-                    
+                    if (!structEnarek.success || structEnarek.ENAREK.Trim().Equals("")) 
                     {
                         response.flag = 0;
                         response.error = "ERROR ==> ENAREK.Helpers.GetEnarek returned error:" + structEnarek.error; 

@@ -1,7 +1,7 @@
-﻿@model ENAREK.Models.GetENAREKModel
+﻿@model ENAREK.Models.GetENAREKModelTest
 @{
-    ViewBag.Title = "GetENAREK";
-    //   Model.ENAREK = " Πατήστε Αναζήτηση για να το βρείτε ... "; 
+    ViewBag.Title = "GetENAREKTest";
+    //   Model.ENAREK = " Πατήστε Αναζήτηση για να το βρείτε ... ";
 }
 
 
@@ -10,12 +10,13 @@
     Συμπληρώστε τα παρακάτω στοιχεία και επιλέξτε <b><<Αναζήτηση ΕΝΑΡΕΚ>></Αναζήτηση></b> <br />
     Τα στοιχεία που συμπληρώνονται <b> δεν αποθηκεύονται στο σύστημα και δεν εκτελείται κάποια περεταίρω επεξεργασία σε αυτά. </b> <br />
     Χρησιμοποιούνται αποκλειστικά για την επαλήθευση του σωστού ΑΜΚΑ αναζήτησης. <br />
+    <b><font color="red">Αυτή είναι test page για την δοκιμή του Service </font></b>
 </div>
-<hr/> 
+<hr />
 
- 
 
-@using (Html.BeginForm("GetENAREKFull", "Home", FormMethod.Post))
+
+@using (Html.BeginForm("GetENAREKTest", "Home", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <!--    <div class="alert alert-danger">
@@ -23,9 +24,9 @@
             <br />
         </div>   -->
 
-            @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-      
+
         <div class="col-md-2 Minedu-wrap">
             @Html.LabelFor(model => model.AMKA, new { @class = " control-label" })
         </div>
@@ -83,40 +84,40 @@
         </div>
 
 
-            @if (@ViewBag.Message.Trim().Contains("ΠΡΟΒΛΗΜΑ") || @ViewBag.Message.Trim().Contains("ΠΡΟΣΟΧΗ"))
-            {
-                
-                <div class="col-md-12 alert alert-danger">
-                    @Html.Raw(@ViewBag.Message) ;
-                </div>
-            }
-            else if (@ViewBag.Message.Contains("<<Αναζήτηση"))
-            {
-                <div class="col-md-12 alert" >
-                    <h4> Το ΕΝΑΡΕΚ   είναι:  </h4> @Html.Raw(@ViewBag.Message) 
-                </div>
-            }
+        @if (@ViewBag.Message.Trim().Contains("ΠΡΟΒΛΗΜΑ") || @ViewBag.Message.Trim().Contains("ΠΡΟΣΟΧΗ"))
+        {
 
-            else
-            {
-                <div class="col-md-12 alert ale">
-                    <h4> Το ΕΝΑΡΕΚ είναι:   @Html.Raw(@ViewBag.Message)</h4> ;
-                </div>
-            }
+            <div class="col-md-12 alert alert-danger">
+                @Html.Raw(@ViewBag.Message) ;
+            </div>
+        }
+        else if (@ViewBag.Message.Contains("<<Αναζήτηση"))
+        {
+            <div class="col-md-12 alert">
+                <h4> Το ΕΝΑΡΕΚ   είναι:  </h4> @Html.Raw(@ViewBag.Message)
+            </div>
+        }
 
-        </div>
-        
+        else
+        {
+            <div class="col-md-12 alert ale">
+                <h4> Το ΕΝΑΡΕΚ είναι:   @Html.Raw(@ViewBag.Message)</h4> ;
+            </div>
+        }
+
+    </div>
+
 }
 
 
-                    <script>
+<script>
                         // placeholder for browsers that do not support Date field
                         document.getElementById("BirthDate").setAttribute("placeholder", 'MM/dd/yyyy');
-                    </script>
+</script>
 
 
 
-                   
+
 
 
 

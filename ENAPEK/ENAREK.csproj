@@ -18,9 +18,9 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressSSLPort>44351</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -176,12 +176,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CallWebService.cs" />
     <Compile Include="Helpers\Core.cs" />
     <Compile Include="Helpers\GetENAREK.cs" />
     <Compile Include="Helpers\HDIKACalls.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\RandomGenerator.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\GetENAREKModelTest.cs" />
+    <Compile Include="Models\TaxisAccountModel.cs" />
     <Compile Include="Models\GetENAREKModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -192,6 +195,7 @@
     <Content Include="Content\bootstrap_MINEDU_BLUE.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\MineduSite.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -253,11 +257,13 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\WebAPI\Index.cshtml" />
-    <Content Include="Views\Home\GetENAREK2.cshtml" />
+    <Content Include="Views\Home\GetENAREKTest.cshtml" />
     <Content Include="Views\Home\GetENAREK.cshtml" />
     <Content Include="Views\Home\GetENAREKFull.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Date.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Home\TaxisLogin.cshtml" />
+    <Content Include="Views\Home\Index - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -291,7 +297,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55905</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55905/</IISUrl>
+          <IISUrl>https://localhost:44351/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -8,18 +8,10 @@ namespace ENAREK.Models
 {
     public class GetENAREKModel
     {
-        //public GetENAREKModel()
-        //{
-        //    AMKA = "initAMKA";
-        //    ENAREK = "initENAREK";
-        //    Error = "initError";
-        //}
-
             [Display(Name ="ΑΜΚΑ")]
             
-            
         [Required(ErrorMessage = "Παρακαλώ Συμπληρώστε ΑΜΚΑ")]
-        [RegularExpression(@"^[0-9]{9,10}$", ErrorMessage ="Το ΑΜΚΑ πρέπει να είναι 9-10 αριθμητικά ψηφία")]
+        [RegularExpression(@"^[0-9]{11,12}$", ErrorMessage ="Το ΑΜΚΑ πρέπει να είναι 11-12 αριθμητικά ψηφία")]
         public string AMKA { get; set;  }
 
         

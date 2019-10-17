@@ -1,0 +1,53 @@
+﻿@model ENAREK.Models.TaxisAccountModel
+@{
+    ViewBag.Title = "TaxisLogin";
+ 
+}
+<h2>Σελίδα Login με το TAXIS</h2>
+<h2> @ViewBag.Message</h2>
+
+
+@using (Html.BeginForm("TaxisLogin", "Home", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    
+        <div class="form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.LoginAccount, new { @class = "control-label" })
+            </div>
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.LoginAccount, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LoginAccount, "", new { @class = "text-danger Minedu-margin-bottom" })
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.LoginPassword, new { @class = "control-label" })
+            </div>
+            <div class="col-md-9">
+                @Html.PasswordFor(model => model.LoginPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LoginPassword, "", new { @class = "text-danger Minedu-margin-bottom" })
+            </div>
+
+           
+
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-primary " value="ΕΙΣΟΔΟΣ" />
+                </div>
+            </div>
+
+        }
+
+
+
+
+
+
+
+        <br />
+
+
+
+
+
+
+

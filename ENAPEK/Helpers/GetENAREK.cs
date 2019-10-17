@@ -54,6 +54,14 @@ namespace ENAREK.Helpers
             {
                 
                  con = getConnection();
+                if (con == null)
+                {
+                    response.success = false;
+                    response.error = "ERROR: ΔΕΝ ΜΠΟΡΕΙ ΝΑ ΓΙΝΕΙ Η ΣΥΝΔΕΣΗ ΜΕ ΤΗΝ ΒΑΣΗ ΔΕΔΟΜΕΝΩΝ";
+                    response.ENAREK = "";
+                    response.IsNew = false;
+                    return response;
+                }
                 string rs = getFromAMKATable(AMKA, con);
                 if (!errorMessage.Equals("")) { response.IsENAREKError(errorMessage); return response; }
                 if (!rs.Trim().Equals(""))

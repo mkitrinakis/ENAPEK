@@ -1,0 +1,36 @@
+﻿    .Minedu-margin-bottom {
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    .Minedu-margin-top {
+        display: inline-block;
+        margin-top: 15px;
+    }
+
+    .Minedu-date-IE {
+        width: 70%;
+    }
+
+    .Minedu-background {
+       background-color: #31819C;
+    }
+
+    .Minedu-wrap {
+          overflow-wrap: break-word;
+    }
+
+.Minedu-paragraph {
+    line-height: 2;
+}
+
+    .Minedu-box {
+          
+        margin-bottom: 15px;
+          margin-top: 15px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+           background-color: #31819C;
+           color: #ffffff; 
+              line-height: 2;
+    }

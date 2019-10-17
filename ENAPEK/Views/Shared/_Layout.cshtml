@@ -3,66 +3,162 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - ΥΠΠΕΘ - ΕΝΑΡΕΚ</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
    
-    <div class="navbar-inverse">
-        <a class="navbar-brand" href="#">
-            <img src="~/imgs/mainlogo.jpg" alt="Minedu logo" />
-        </a>
+    <!-- navbar examples " https://getbootstrap.com/docs/3.4/examples/navbar-fixed-top/ "  -->
+
+    <div class="navbar-inverse navbar-default  ">
+        <!-- <div class="navbar-inverse navbar-fixed-top navbar-expand-lg">  -->
+           <a class="navbar-brand" href="#">
+                <img src="~/imgs/mainlogo.jpg" alt="Minedu logo" />
+            </a> 
         <div class="container">
-          
             <div class="navbar-header">
-                
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar" ></span>
-                    
-                    
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Ερώτηση ΕΝΑΡΕΚ", "GetENAREKFull", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                
             </div>
-            <div class="navbar-collapse collapse">
+            <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Όροι Χρήσης/Πολιτική Απόρρητου", "Index", "Home")</li>
-                    
-                </ul>
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Όροι Χρήσης/Πολιτική Απόρρητου", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Αρχική", "Index", "Home")</li>
+                    <li>@Html.ActionLink("ΑΝΑΖΗΤΗΣΗ ΕΝΑΡΕΚ", "GetENAREKFull", "Home")
+                    </li>
+<li>@Html.ActionLink("Όροι Χρήσης/Πολιτική Απόρρητου", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Τι είναι ο ΕΝΑΡΕΚ", "Index", "Home")</li>
 
-                </ul><ul class="nav navbar-nav">
-    <li>@Html.ActionLink("Όροι Χρήσης/Πολιτική Απόρρητου", "Index", "Home")</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (System.Web.HttpContext.Current.Session["isAuthenticated"] == null || (!(bool)System.Web.HttpContext.Current.Session["isAuthenticated"]))
+                        {
+                            <p class="navbar-text">
+                                <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("TaxisLogin", "Home")'">
+                                    <span class="glyphicon glyphicon-log-in"></span> Σύνδεση με Taxis
+                                </button>
+                            </p>
+                        }
 
-</ul><ul class="nav navbar-nav">
-    <li>@Html.ActionLink("Όροι Χρήσης/Πολιτική Απόρρητου", "Index", "Home")</li>
+                        @if (System.Web.HttpContext.Current.Session["isAuthenticated"] != null && ((bool)System.Web.HttpContext.Current.Session["isAuthenticated"]))
+                        {
+                            // var loginRender = ENAREK.Helpers.RandomGenerator.getID();
+                            var loginRender = System.Web.HttpContext.Current.Session["LoginAccount"] ?? "N/A";
+                            <p class="navbar-text">
+                                Συνδεδεμένη(ος) ως:  @loginRender  &nbsp&nbsp&nbsp&nbsp
+                                <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("TaxisLogOff", "Home")'">
+                                    <span class="glyphicon glyphicon-log-out"></span> Αποσύνδεση
+                                </button>
 
-</ul><ul class="nav navbar-nav">
-    <li>@Html.ActionLink("Όροι Χρήσης/Πολιτική Απόρρητου", "Index", "Home")</li>
+                                <br />
+                            </p>
+                        }
 
-</ul><ul class="nav navbar-nav">
-    <li>@Html.ActionLink("Όροι Χρήσης/Πολιτική Απόρρητου", "Index", "Home")</li>
+                    </ul>
 
-</ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
 
-        
-     
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+
+
+
+ 
+
+
+    
+
+    <div class="modal fade" id="cookiesModal" tabindex="-1" role="dialog" aria-labelledby="cookiesModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+           
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-header Minedu-background">
+                    <h2 class="modal-title" id="cookiesModalLabel">Πολιτική Cookies</h2>
+                    
+                </div>
+                <div class="modal-body">
+                    Χρησιμοποιούμε Cookies ... <a href="www.in.gr">Κάντε click εδώ </a> να δείτε την πολιτική τους ... 
+                </div>
+                <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-primary" onclick="cookiesModalHide();">Κατάλαβα</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+    
+            <div class="container">
+                 @RenderBody()
+                </div>
+    
+
+
+
+
+        <footer>
+            <div class="navbar navbar-fixed-bottom"></div>
+            <p align="center" class="Minedu-box">&copy; - Υπουργείο Παιδείας Έρευνας &amp; Θρησκευμάτων</p>
+    </div>
+
+
+    
+    </footer> 
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")    
     @Scripts.Render("~/bundles/jqueryval") 
 
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        function cookiesModalHide()
+        {
+            sessionStorage.setItem("ENAREK_cookiesAccepted", "1"); 
+            $('#cookiesModal').modal('hide');
+        }
+
+        $(window).on('load', function () {
+            var cookiesAccepted = sessionStorage.getItem("ENAREK_cookiesAccepted");
+            // alert(cookiesAccepted); 
+            if (cookiesAccepted== null || cookiesAccepted!='1') {
+                $('#cookiesModal').modal('show');
+            }
+        });
+    </script>
+
+
+    <div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="cookiesModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-header" style="background-color:aqua">
+                    <h2 class="modal-title" id="cookiesModalLabel">Terms &Aacute; Conditions</h2>
+
+                </div>
+                <div class="modal-body">
+                    Χρησιμοποιούμε Cookies ... <a href="www.in.gr">Κάντε click εδώ </a> να δείτε την πολιτική τους ...
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-primary" onclick="cookiesModalHide();">Κατάλαβα</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

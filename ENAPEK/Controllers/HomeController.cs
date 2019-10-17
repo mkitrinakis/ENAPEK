@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace ENAREK.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         
@@ -26,18 +27,21 @@ namespace ENAREK.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your cvontact page.";
+            ViewBag.Message = "Your contact page.";
 
             return View();
         }
 
+
+        // NOT USED 
+        /*
         public ActionResult GetENAREK()
         {
-            ViewBag.Message = "GetENAREK";
+            ViewBag.Message = "Συμπληρώστε τα πεδία και επιλέξτε <<Αναζήτηση ΕΝΑΡΕΚ>>";
             return View();
         }
 
-        [HttpPost]
+        [HttpPost] 
         public ActionResult GetENAREK(GetENAREKModel m)
         {
             //   if (rg == null) { rg = new Helpers.RandomGenerator();  }
@@ -73,11 +77,58 @@ namespace ENAREK.Controllers
             }
             return View(m);
         }
+        */ 
+
+     
+
+        public ActionResult TaxisLogin()
+        {
+            bool isAuthenticated = (bool)(System.Web.HttpContext.Current.Session["isAuthenticated"] ?? false);
+            
+            if (isAuthenticated)
+            {
+                ViewBag.Message = "Hello " + (System.Web.HttpContext.Current.Session["LoginAccount"] ?? "").ToString() +  ", you Are Authenticated as you can Get your ENAREK";
+                return RedirectToAction("GetENAREKFull");
+            }
+            else
+            {
+                ViewBag.Message = "Authentication Page";
+                return View("TaxisLogin");
+            }
+        }
+
+        public ActionResult TaxisLogOff()
+        {
+            System.Web.HttpContext.Current.Session["isAuthenticated"] = false;
+            System.Web.HttpContext.Current.Session["LoginAccount"] = "";
+            return View("Index");
+        }
+
+        [HttpPost]
+        public ActionResult TaxisLogin(TaxisAccountModel m)
+        {
+            System.Web.HttpContext.Current.Session["isAuthenticated"] = true;
+            System.Web.HttpContext.Current.Session["LoginAccount"] = m.LoginAccount;
+            return RedirectToAction("GetENAREKFull");
+        }
+
 
         public ActionResult GetENAREKFull()
         {
-            ViewBag.Message = "GetENAREKFull";
-            return View();
+            bool isAuthenticated = (bool)(System.Web.HttpContext.Current.Session["isAuthenticated"] ?? false);
+            GetENAREKModel m = new GetENAREKModel();
+            m.ENAREK = ""; 
+                
+            if (isAuthenticated)
+            {
+                ViewBag.Message = "Συμπληρώστε τα πεδία και επιλέξτε <<Αναζήτηση ΕΝΑΡΕΚ>>";
+                return View(m);
+            }
+            else
+            {
+                ViewBag.Message = "You have to Authenticate First";
+                return RedirectToAction("TaxisLogin");
+            }
         }
 
         [HttpPost]
@@ -91,73 +142,89 @@ namespace ENAREK.Controllers
             DateTime BirthDate = m.BirthDate; 
              Helpers.GetENAREK getENAREK = new Helpers.GetENAREK();
             string myResponse = "";
-            HtmlHelper.ClientValidationEnabled = true; 
+             HtmlHelper.ClientValidationEnabled = true;
             if (ModelState.IsValid)
             {
-            
-                myResponse = BirthDate.Year + "." + BirthDate.Month + "." + BirthDate.Day;
-                ViewBag.Message = myResponse;
 
-                Helpers.Log.write("the AKA is" + AMKA);
-                return View(m);
-            }
 
-            Helpers.HDIKACalls.StructAMKADetailsResponse response1 = Helpers.HDIKACalls.getAMKADetails(true, AMKA, SurName);
-       
-            if (!response1.success)
-            {
-                myResponse = "Συστημικό Πρόβλημα καιά τον ελεγχο ΑΜΚΑ: " + response1.getError() + "(code:" + response1.code + ")"; 
-            }
-            else
-            {
-                if (!response1.Result.match)
+                Helpers.HDIKACalls.StructAMKADetailsResponse response1 = Helpers.HDIKACalls.getAMKADetails(true, AMKA, SurName);
+
+                if (!response1.success)
                 {
-                    myResponse = "Δεν βρέθηκε εγγραφή με αυτό το ζεύγος ΑΜΚΑ κ Επώνυμο"; 
+                    myResponse = "<b>ΠΡΟΣΟΧΗ: </b> Συστημικό Πρόβλημα καιά τον ελεγχο ΑΜΚΑ: " + response1.getError() + "(code:" + response1.code + ")";
                 }
                 else
                 {
-                   
-                }
-            }
+                    if (!response1.Result.match)
+                    {
+                        myResponse = "<b>ΠΡΟΒΛΗΜΑ: </b> Δεν βρέθηκε εγγραφή με αυτό το ζεύγος ΑΜΚΑ κ Επώνυμο";
+                    }
+                    else
+                    {
 
-            Helpers.HDIKACalls.StructENAREKResponse response2 = Helpers.HDIKACalls.getENAREK(true, AMKA, SurName, FirstName, FatherName, MotherName, Helpers.Core.dateToString(BirthDate));
-            //if (response2.flag.Equals(-1))
-            //{
-            //    myResponse = "Συστημικό Πρόβλημα καtά τον ελεγχο ΑΜΚΑ: " + response1.getError() + "(system error:" + response2.error+ ")";
-            //}
-            //if (response2.flag.Equals(-2))
-            //{
-            //    myResponse = "Δεν βρέθηκε εγγραφή με αυτό το ζεύγος ΑΜΚΑ κ Επώνυμο" + "(system error:" + response2.error + ")";
-            //}
-            //if (response2.flag.Equals(0))
-            //{
-            //    myResponse = "Συστημικό Πρόβλημα κατά την αναζήτηση ΕΝΑΡΕΚ" + "(system error:" + response2.error + ")";
-            //}
-            if (response2.flag <= 0)
-            {
-                myResponse = "f:" + response2.flag + " --> " + response2.error;
-            }
-            else
-            {
-                if (response2.flag.Equals(1))
+                    }
+                }
+
+                Helpers.HDIKACalls.StructENAREKResponse response2 = Helpers.HDIKACalls.getENAREK(true, AMKA, SurName, FirstName, FatherName, MotherName, Helpers.Core.dateToString(BirthDate));
+                if (response2.flag <= 0)
                 {
-                    myResponse = "Το ΕΝΑΡΕΚ είναι : " + response2.ENAREK;
+
+                    if (response2.flag.Equals(-1))
+                    {
+                        myResponse = "<b>ΠΡΟΒΛΗΜΑ: </b> Συστημικό Πρόβλημα καtά τον ελεγχο ΑΜΚΑ: " + response1.getError() + "(system error:" + response2.error + ")";
+                    }
+                    if (response2.flag.Equals(-2))
+                    {
+                        myResponse = "<b>ΠΡΟΒΛΗΜΑ: </b> Δεν βρέθηκε εγγραφή με αυτό το ζεύγος ΑΜΚΑ κ Επώνυμο" + "(system error:" + response2.error + ")";
+                    }
+                    if (response2.flag.Equals(0))
+                    {
+                        myResponse = "<b>ΠΡΟΒΛΗΜΑ: </b> Συστημικό Πρόβλημα κατά την αναζήτηση ΕΝΑΡΕΚ" + "(system error:" + response2.error + ")";
+                    }
                 }
-                if (response2.flag.Equals(2))
+                else
                 {
-                    myResponse = "Το ΕΝΑΡΕΚ είναι : " + response2.ENAREK + " αλλά επιβεβαιώστε τα στοιχεία γιατί δεν είναι τα ίδια στα πεδία " + response2.error + ":";
-                    myResponse += showDetails(response2.AMKADetails);
+                    myResponse = "<b>ΠΡΟΒΛΗΜΑ: </b> " + response2.flag + "-- > " + response2.error;
                 }
+    
+                    if (response2.flag.Equals(1))
+                    {
+                        m.ENAREK = response2.ENAREK;
+                        myResponse = response2.ENAREK;
+                    }
+                    if (response2.flag.Equals(2))
+                    {
+                        m.ENAREK = response2.ENAREK;
+                        myResponse = "<b>ΠΡΟΣΟΧΗ: </b> Το ΕΝΑΡΕΚ που βράθηκε βάσει των στοιχείων  είναι : <b>" + response2.ENAREK + "</b> αλλά επιβεβαιώστε τα στοιχεία γιατί δεν είναι τα ίδια στo(α) πεδίο(α) " + response2.error + ".";
+                        myResponse += "<br>" + "Το ΕΝΑΡΕΚ δόθηκε βάσει των παρακάτων τιμών: " + showDetails(response2.AMKADetails);
+                    }            
+                
+                ViewBag.Message = myResponse;
+                Helpers.Log.write("the AKA is" + AMKA);
             }
-
-            // ViewBag.Message = "getAMKADetails Post for:" + Newtonsoft.Json.JsonConvert.SerializeObject(response1) + ", ENAREK Response:" + Newtonsoft.Json.JsonConvert.SerializeObject(response2);
-            ViewBag.Message = myResponse; 
-
-            Helpers.Log.write("the AKA is" + AMKA);
-            
-
             return View(m);
         }
+
+
+
+        public ActionResult GetENAREKTest()
+        {
+            
+            GetENAREKModelTest m = new GetENAREKModelTest();
+            m.ENAREK = "";
+            ViewBag.Message = "Συμπληρώστε τα πεδία και επιλέξτε <<Αναζήτηση ΕΝΑΡΕΚ>>";
+            return View(m);
+        }
+
+        [HttpPost]
+        public ActionResult GetENAREKTest(ENAREK.Models.GetENAREKModelTest m)
+        {
+            ENAREK.Helpers.CallWebService call = new ENAREK.Helpers.CallWebService();
+            string myResponse = call.pump(m);
+        ViewBag.Message = myResponse;
+            return View(m);
+        }
+
 
         private string showDetails(Helpers.HDIKACalls.StructAMKADetails amkaDetails)
         {
