@@ -1,0 +1,31 @@
+git status
+
+Για τα modified
+git add (stage it)
+git add --all   (git add .) 
+git commit 
+git checkout --filename (dicard) 
+
+git diff
+git diff --stat
+git diff --name-only 
+git diff --staged  or git diff --cached
+
+
+branching 
+https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+
+
+git branch
+git branch newBranch
+git checkOut newBranch
+....make changes...  add ... commit 
+git checkOut master
+git merge newBranch
+
+
+Και για να πάνε στο global repository 
+git push 
+
+
+
