@@ -33,13 +33,15 @@ namespace ENAREK.Helpers
 
             // string encoded = HelpUtils.return___PRODUCTION___Authorization();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            string q = "http://localhost:21801/api/ENAREK/";
-         
+            // string q = "http://localhost:21801/api/ENAREK/";
+
+            string q = System.Web.Configuration.WebConfigurationManager.AppSettings["WebServiceURL"];
+
             var request = WebRequest.Create(q);
             request.Method = "POST";
             request.ContentType = "application/json";
             // HDIKACalls.getENAREK(true, request.amka, request.surname, request.firstname, request.fathername, request.mothername, request.birthdate);
-            RequestStruct rs = new Helpers.CallWebService.RequestStruct() { amka = m.AMKA, firstname = m.FirstName, surname = m.SurName, fathername = m.FirstName, mothername = m.MotherName, birthdate = myDate(m.BirthDate) };
+            RequestStruct rs = new Helpers.CallWebService.RequestStruct() { amka = m.AMKA, firstname = m.FirstName, surname = m.SurName, fathername = m.FatherName, mothername = m.MotherName, birthdate = myDate(m.BirthDate) };
             string postData = JsonConvert.SerializeObject(rs);
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
             request.ContentLength = byteArray.Length;
@@ -79,7 +81,7 @@ namespace ENAREK.Helpers
             try
             {
                 DateTime dval = (DateTime)val;
-                return dval.Day.ToString().PadLeft(2, '0') + "//" + dval.Month.ToString().PadLeft(2, '0') + "//" + dval.Year;
+                return dval.Day.ToString().PadLeft(2, '0') + "/" + dval.Month.ToString().PadLeft(2, '0') + "/" + dval.Year;
             }
             catch { return val.ToString();  }
         }

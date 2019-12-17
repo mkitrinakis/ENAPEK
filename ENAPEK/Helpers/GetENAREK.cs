@@ -253,9 +253,21 @@ namespace ENAREK.Helpers
             {
                 //string connectionString = System.Web.Configuration.WebConfigurationManager.AppSettings["SQLConnectionString"];  // connectionString = "Data Source=" + oracle_datasource + ";User ID=" + oracle_userid + ";Password=" + oracle_password + "";
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder["Data Source"] = "WIN81-A0389\\SQLEXPRESS";
-                builder["integrated Security"] = true;
-                builder["Initial Catalog"] = "ENAREK";
+                builder.DataSource = System.Web.Configuration.WebConfigurationManager.AppSettings["SQLDataSource"];
+                string sqlIntegratedSecurity = System.Web.Configuration.WebConfigurationManager.AppSettings["SQLIntegratedSecurity"].Trim().ToUpper();
+                bool isIntegratedSecurity = sqlIntegratedSecurity.Equals("YES") || sqlIntegratedSecurity.Equals("TRUE") || sqlIntegratedSecurity.Equals("1");
+                builder.IntegratedSecurity = isIntegratedSecurity;
+                builder.InitialCatalog = System.Web.Configuration.WebConfigurationManager.AppSettings["SQLInitialCatalog"]; ;
+                if (!isIntegratedSecurity)
+                {
+                    builder.UserID = System.Web.Configuration.WebConfigurationManager.AppSettings["SQLUserID"];
+                    builder.Password = System.Web.Configuration.WebConfigurationManager.AppSettings["SQLPassword"];
+                }
+
+
+                //builder["Data Source"] = "WIN81-A0389\\SQLEXPRESS";
+                //builder["integrated Security"] = true;
+                //builder["Initial Catalog"] = "ENAREK";
                 
                 SqlConnection conn = new SqlConnection();
                 conn.ConnectionString = builder.ConnectionString;
